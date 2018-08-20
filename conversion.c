@@ -10,7 +10,7 @@ int decimalToBinary(int decimal) {
   int decNumber = decimal;
   int counter = 0;
   //calculating maximum power
-  while (decNumber > pow(binBase, power++));
+  while (decNumber >= pow(binBase, power++));
   counter = power -=2;
   //calculating the binary number
   while (power>=0) {
@@ -35,7 +35,7 @@ int decimalToOctal(int decimal) {
   int decNumber = decimal;
   int counter = 0;
   //calculating maximum power
-  while (decNumber > pow(octBase, power++));
+  while (decNumber >= pow(octBase, power++));
   power -= 2;
   counter = power;
   //calculating the binary number
@@ -58,14 +58,19 @@ void decimalToHexadecimal(struct Numbers* numbers) {
   int power = 0;
   int decNumber = numbers->decimal;
   int counter = 0;
-  while (pow(hexBase, power++) < decNumber);
-  counter = power -= 2;
-  while (power>=0) {
+  while (pow(hexBase, power++) <= decNumber);
+  counter = power -= 1;
+  for ( power = 0; power <= counter; power++) {
     numbers->hexadecimal[power] = decNumber / (int)(pow(hexBase, power));
-   decNumber %= (int)(pow(hexBase, power));
+    decNumber %= (int)(pow(hexBase, power));
     switch (numbers->hexadecimal[power]) {
     case 0:
-      numbers->hexadecimal[power] = '0';
+      if (power<(counter-1)) {
+        numbers->hexadecimal[power] = '0';
+      }
+      else {
+        numbers->hexadecimal[power] = "";
+      }
       break;
     case 1:
       numbers->hexadecimal[power] = '1';
@@ -115,12 +120,36 @@ void decimalToHexadecimal(struct Numbers* numbers) {
     default:
       break;
     }
-    power--;
-  }
+  } 
 }
 
 int binaryToDecimal(int binary) {
-
+  //declaring variables
+  const int binBase = 2;
+  const int decBase = 10;
+  int binArray[100];
+  int binNumber = binary;
+  int decNumber = 0;
+  int power = 0;
+  int counter = 0;
+  //calculating maximum power
+  while (binNumber>0) {
+    binArray[power] = binNumber / 10;
+    binNumber %= 10;
+    power++;
+  }
+  counter = power -= 2;
+  //calculating the binary number
+  while (power >= 0) {
+    binArray[power] = decNumber / (int)pow(binBase, power);
+    decNumber %= (int)pow(binBase, power);
+    power--;
+  }
+  //converting the array to single number
+  for (power = 0; power <= counter; power++) {
+    binNumber += (binArray[power] * pow(decBase, power));
+  }
+  return binNumber;
 }
 
 int binaryToOctal(int binary) {

@@ -83,5 +83,12 @@ void printAll(struct Numbers* numbers) {
   numbers->decimal = 0;
   numbers->binary = 0;
   numbers->octal = 0;
-  strcpy(numbers->hexadecimal, "\0");
+  resetHexadecimal(numbers->hexadecimal, 40);
+}
+
+void resetHexadecimal(char* hexadecimal, int size) {
+  while (size>=0) {
+    hexadecimal[size] = NULL;
+    size--;
+  }
 }

@@ -33,3 +33,5 @@ char octalToHexadecimal(int octal);
 int hexadecimalToDecimal(char hexadecimal[]);
 int hexadecimalToBinary(char hexadecimal[]);
 int hexadecimalToOctal(char hexadecimal[]);
+
+void resetHexadecimal(char* hexadecimal, int size);
